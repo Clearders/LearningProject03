@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/IndexBuffer.cpp">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/IndexBuffer.cpp" />
+              <option name="originalContent" value="//&#10;// Created by 13191 on 2025/11/1.&#10;//&#10;#include &quot;Renderer.h&quot;&#10;#include &quot;IndexBuffer.h&quot;&#10;&#10;&#10;IndexBuffer::IndexBuffer(const unsigned int* data,unsigned int count)&#10;    :m_Count(count)&#10;{&#10;    ASSERT(sizeof(unsigned int) == sizeof(GLuint));&#10;&#10;    GLCall(glGenBuffers(1, &amp;m_RendererID));&#10;    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));&#10;    GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER,count * sizeof(unsigned int), data, GL_STATIC_DRAW));&#10;}&#10;&#10;IndexBuffer::~IndexBuffer()&#10;{&#10;    GLCall(glDeleteBuffers(1, &amp;m_RendererID));&#10;}&#10;&#10;void IndexBuffer::Bind() const&#10;{&#10;    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));&#10;}&#10;&#10;void IndexBuffer::Unbind() const&#10;{&#10;    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));&#10;}&#10;" />
+              <option name="updatedContent" value="//&#10;// Created by 13191 on 2025/11/1.&#10;//&#10;#include &quot;Renderer.h&quot;&#10;#include &quot;IndexBuffer.h&quot;&#10;&#10;&#10;IndexBuffer::IndexBuffer(const unsigned int* data,unsigned int count)&#10;    :m_Count(count)&#10;{&#10;    ASSERT(sizeof(unsigned int) == sizeof(GLuint));&#10;&#10;    GLCall(glGenBuffers(1, &amp;m_RendererID));&#10;    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));&#10;    GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER,count * sizeof(unsigned int), data, GL_STATIC_DRAW));&#10;}&#10;&#10;IndexBuffer::~IndexBuffer()&#10;{&#10;    GLCall(glDeleteBuffers(1, &amp;m_RendererID));&#10;}&#10;&#10;void IndexBuffer::Bind() const&#10;{&#10;    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));&#10;}&#10;&#10;void IndexBuffer::Unbind() const&#10;{&#10;    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/IndexBuffer.h">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/IndexBuffer.h" />
+              <option name="originalContent" value="//&#10;// Created by 13191 on 2025/11/1.&#10;//&#10;&#10;#ifndef LEARNINGPROJECT03_INDEXBUFFER_H&#10;#define LEARNINGPROJECT03_INDEXBUFFER_H&#10;&#10;&#10;class IndexBuffer&#10;{&#10;private:&#10;    unsigned int m_RendererID{};&#10;    unsigned int m_Count;&#10;public:&#10;    IndexBuffer(const unsigned int* data,unsigned int count);&#10;    ~IndexBuffer();&#10;&#10;    // 只保留 const 版本，行为不修改对象状态&#10;    void Bind() const;&#10;    void Unbind() const;&#10;&#10;    inline unsigned int GetCount() const { return m_Count; }&#10;};&#10;&#10;&#10;#endif //LEARNINGPROJECT03_INDEXBUFFER_H" />
+              <option name="updatedContent" value="//&#10;// Created by 13191 on 2025/11/1.&#10;//&#10;&#10;#ifndef LEARNINGPROJECT03_INDEXBUFFER_H&#10;#define LEARNINGPROJECT03_INDEXBUFFER_H&#10;&#10;&#10;class IndexBuffer&#10;{&#10;private:&#10;    unsigned int m_RendererID{};&#10;    unsigned int m_Count;&#10;public:&#10;    IndexBuffer(const unsigned int* data,unsigned int count);&#10;    ~IndexBuffer();&#10;&#10;    // 只保留 const 版本，行为不修改对象状态&#10;    void Bind() const;&#10;    void Unbind() const;&#10;&#10;    inline unsigned int GetCount() const { return m_Count; }&#10;};&#10;&#10;&#10;#endif //LEARNINGPROJECT03_INDEXBUFFER_H" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
