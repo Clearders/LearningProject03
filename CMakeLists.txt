@@ -65,8 +65,9 @@ add_executable(LearningProject03
         vendor/imgui/imgui_internal.h
         vendor/imgui/imgui_impl_glfw.cpp
         vendor/imgui/imgui_impl_glfw.h
-        Test/test.cpp
         Test/test.h
+        Test/TestClearColor.cpp
+        Test/TestClearColor.h
 )
 
 find_package(glm CONFIG REQUIRED)
