@@ -49,6 +49,24 @@ add_executable(LearningProject03
         vendor/std_image/std_image.cpp
         Texture.cpp
         Texture.h
+        vendor/imgui/imconfig.h
+        vendor/imgui/imgui.cpp
+        vendor/imgui/imgui.h
+        vendor/imgui/imgui_demo.cpp
+        vendor/imgui/imgui_draw.cpp
+        vendor/imgui/imgui_impl_opengl3.cpp
+        vendor/imgui/imgui_tables.cpp
+        vendor/imgui/imgui_widgets.cpp
+        vendor/imgui/imstb_rectpack.h
+        vendor/imgui/imstb_textedit.h
+        vendor/imgui/imstb_truetype.h
+        vendor/imgui/imgui_impl_opengl3.h
+        vendor/imgui/imgui_impl_opengl3_loader.h
+        vendor/imgui/imgui_internal.h
+        vendor/imgui/imgui_impl_glfw.cpp
+        vendor/imgui/imgui_impl_glfw.h
+        Test/test.cpp
+        Test/test.h
 )
 
 find_package(glm CONFIG REQUIRED)

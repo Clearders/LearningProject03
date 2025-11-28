@@ -11,6 +11,10 @@
 #include "VertexBufferLayout.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "vendor/imgui/imgui.h"
+#include "vendor/imgui/imgui_impl_glfw.h"
+#include "vendor/imgui/imgui_impl_opengl3_loader.h"
+#include "vendor/imgui/imgui_impl_opengl3.h"
 
 int main()
 {
@@ -49,10 +53,10 @@ int main()
 
     {
         float positions[] = {
-            -0.5f, -0.5f,0.0f, 0.0f,
-             0.5f, -0.5f,1.0f, 0.0f,
-             0.5f,  0.5f,1.0f, 1.0f,
-            -0.5f,  0.5f,0.0f, 1.0f
+            0.0f,  0.0f,  0.0f, 0.0f,
+            1.0f,  0.0f,  1.0f, 0.0f,
+            1.0f,  1.0f,  1.0f, 1.0f,
+            0.0f,  1.0f,  0.0f, 1.0f
         };
 
         unsigned int indices[] = {
@@ -73,16 +77,16 @@ int main()
 
         IndexBuffer ib(indices,6);
 
-        glm::mat4 proj = glm::ortho(-1.0f,1.0f,-0.5f,0.5f,-1.0f,1.0f);
-        glm::mat4 view = glm::translate(glm::mat4(1.0f),glm::vec3(0,0,0));
-        glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(0,0,0));
-        glm::mat4 mvp = proj * view * model;
+        int windowWidth = 1080;
+        int windowHeight = 810;
+        glm::mat4 proj = glm::ortho(0.0f, (float)windowWidth,  0.0f,(float)windowHeight, -1.0f, 1.0f);
+        glm::mat4 view = glm::mat4(1.0f);
+
 
         Shader shader("Basic.shader");
         shader.Bind();
 
         shader.SetUniform4f("u_Color",0.8f,0.3f,0.8f,1.0f);
-        shader.SetUniformMat4f("u_MVP",mvp);
 
         Texture texture("textures/test.png");
         texture.Bind();
@@ -95,6 +99,20 @@ int main()
         ib.Unbind();
 
         Renderer renderer;
+
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+        ImGui::StyleColorsDark();
+        ImGui_ImplOpenGL3_Init("#version 330");
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+
+        glm::vec3 translationA(200.0f,200.0f,0.0f);
+        glm::vec3 translationB(400.0f,200.0f,0.0f);
+
+        glm::vec3 scaleVec(96.0f, 140.0f, 1.0f);
 
         GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
         GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
@@ -109,10 +127,30 @@ int main()
 
             GLCall(glClearColor(0.2f,0.25f,0.3f,1.0f));
 
-            shader.Bind();
-            shader.SetUniform4f("u_Color",r,0.3f,0.8f,1.0f);
+            //new ImGui frame
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
 
-            renderer.Drew(va,ib,shader);
+            {
+                glm::mat4 model = glm::translate(glm::mat4(1.0f),translationA)*
+                                  glm::scale(glm::mat4(1.0f),scaleVec);
+                glm::mat4 mvp = proj * view * model;
+                shader.Bind();
+                shader.SetUniformMat4f("u_MVP",mvp);
+
+                renderer.Drew(va,ib,shader);
+            }
+
+            {
+                glm::mat4 model = glm::translate(glm::mat4(1.0f),translationB)*
+                                  glm::scale(glm::mat4(1.0f),scaleVec);
+                glm::mat4 mvp = proj * view * model;
+                shader.Bind();
+                shader.SetUniformMat4f("u_MVP",mvp);
+
+                renderer.Drew(va,ib,shader);
+            }
 
             if (r > 1.0f)
             {
@@ -123,6 +161,17 @@ int main()
             }
             r += increment;
 
+            // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
+            {
+                ImGui::SliderFloat3("Translation A", &translationA.x, 0.0f, 960.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+                ImGui::SliderFloat3("Translation B", &translationB.x, 0.0f, 960.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            }
+
+            //Render ImGui
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
 
@@ -131,6 +180,10 @@ int main()
         }
 
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwTerminate();
     return 0;
