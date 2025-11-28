@@ -6,4 +6,9 @@
 
 namespace test
 {
+
+    class Test
+    {
+
+    };
 } // test
